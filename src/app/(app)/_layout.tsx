@@ -1,12 +1,11 @@
 /* eslint-disable react/no-unstable-nested-components */
-import { Link, Redirect, SplashScreen, Tabs } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
+import { Redirect, SplashScreen, Tabs } from 'expo-router';
 import React, { useCallback, useEffect } from 'react';
 
-import { Pressable, Text } from '@/components/ui';
 import {
-  Feed as FeedIcon,
+  Home as HomeIcon,
   Settings as SettingsIcon,
-  Style as StyleIcon,
 } from '@/components/ui/icons';
 import { useAuth, useIsFirstTime } from '@/lib';
 
@@ -35,22 +34,25 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Feed',
-          tabBarIcon: ({ color }) => <FeedIcon color={color} />,
-          headerRight: () => <CreateNewPostLink />,
-          tabBarButtonTestID: 'feed-tab',
+          title: 'Home',
+          tabBarIcon: ({ color }) => <HomeIcon color={color} />,
+          headerShown: false,
+          tabBarButtonTestID: 'home-tab',
         }}
       />
 
       <Tabs.Screen
-        name="style"
+        name="create-room"
         options={{
-          title: 'Style',
+          title: 'Create Room',
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="add-circle" size={24} color={color} />
+          ),
           headerShown: false,
-          tabBarIcon: ({ color }) => <StyleIcon color={color} />,
-          tabBarButtonTestID: 'style-tab',
+          tabBarButtonTestID: 'create-room-tab',
         }}
       />
+
       <Tabs.Screen
         name="settings"
         options={{
@@ -60,16 +62,14 @@ export default function TabLayout() {
           tabBarButtonTestID: 'settings-tab',
         }}
       />
+
+      <Tabs.Screen
+        name="room/[id]"
+        options={{
+          href: null,
+          headerShown: false,
+        }}
+      />
     </Tabs>
   );
 }
-
-const CreateNewPostLink = () => {
-  return (
-    <Link href="/feed/add-post" asChild>
-      <Pressable>
-        <Text className="px-3 text-primary-300">Create</Text>
-      </Pressable>
-    </Link>
-  );
-};
