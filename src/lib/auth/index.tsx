@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 
+import { initGuestProfile } from '../stores/user-store';
 import { createSelectors } from '../utils';
 import type { TokenType } from './utils';
 import { getToken, removeToken, setToken } from './utils';
@@ -31,6 +32,10 @@ const _useAuth = create<AuthState>((set, get) => ({
       } else {
         get().signOut();
       }
+
+      // Initialize a guest profile for the game functionality
+      // This runs regardless of auth state
+      initGuestProfile();
     } catch (e) {
       // catch error here
       // Maybe sign_out user!

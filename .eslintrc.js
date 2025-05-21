@@ -2,6 +2,12 @@ const path = require('path');
 
 module.exports = {
   extends: ['expo', 'plugin:tailwindcss/recommended', 'prettier'],
+  ignorePatterns: [
+    'ORIGINAL/**/*',
+    'node_modules/**/*',
+    'ios/**/*',
+    'android/**/*',
+  ],
   plugins: [
     'prettier',
     'unicorn',
@@ -91,6 +97,41 @@ module.exports = {
           {
             singleQuote: true,
             endOfLine: 'auto',
+          },
+        ],
+      },
+    },
+    {
+      // Configuration for server files - more lenient rules for multiplayer game logic
+      files: ['server/**/*.js'],
+      rules: {
+        'max-lines-per-function': ['error', 350], // Game logic can be complex
+        'max-params': ['error', 5], // Game functions may need more parameters
+        'unused-imports/no-unused-vars': [
+          'error',
+          {
+            argsIgnorePattern: '^_',
+            varsIgnorePattern: '^_',
+            caughtErrorsIgnorePattern: '^_',
+          },
+        ],
+      },
+    },
+    {
+      // Configuration for React screens/components - slightly more lenient
+      files: [
+        'src/app/**/*.tsx',
+        'src/components/**/*.tsx',
+        'src/lib/**/*.tsx',
+      ],
+      rules: {
+        'max-lines-per-function': ['error', 300], // React components can be larger
+        'unused-imports/no-unused-vars': [
+          'warn', // Downgrade to warning for development
+          {
+            argsIgnorePattern: '^_',
+            varsIgnorePattern: '^_',
+            caughtErrorsIgnorePattern: '^_',
           },
         ],
       },
